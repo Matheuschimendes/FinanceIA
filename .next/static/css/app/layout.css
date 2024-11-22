@@ -521,6 +521,10 @@ video {
 [hidden]:where(:not([hidden="until-found"])) {
   display: none;
 }
+.text-red-500 {
+  --tw-text-opacity: 1;
+  color: rgb(239 68 68 / var(--tw-text-opacity));
+}
 .antialiased {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
