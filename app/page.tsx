@@ -1,9 +1,14 @@
-import { Button } from "./components/_ui/button";
+import { UserButton } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
+import { dark } from "@clerk/themes";
+import { redirect } from "next/navigation";
 
-const Home = () => { 
-  return (
-    <Button>Buttons</Button>
-  )
+const Home = async () => {
+  const { userId } = await auth();
+  if (!userId) {
+    redirect("/login"); 
+  }
+  return <UserButton showName/>;
 };
 
 export default Home;
