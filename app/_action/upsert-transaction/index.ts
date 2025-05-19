@@ -31,7 +31,7 @@ export const upsertTransaction = async (params: UpsertTransactionParams) => {
       update: { ...params, userId },
       create: { ...params, userId },
     })
-  } else {
+  } else { 
     // ✨ CREATE se `id` não existir
     await db.transaction.create({
       data: { ...params, userId },
