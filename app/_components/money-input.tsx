@@ -1,7 +1,9 @@
 import React, { forwardRef } from "react";
 import { NumericFormat, NumericFormatProps } from "react-number-format";
 
-import { Input, InputProps } from "@/app/_components/ui/input";
+import { Input } from "@/app/_components/ui/input";
+import type { InputProps } from "react-day-picker";
+
 
 export const MoneyInput = forwardRef(
   (
