@@ -12,7 +12,9 @@ const Navbar = () => {
     <nav className="flex justify-between border-b border-solid px-8 py-4">
       {/* Conteúdo do navbar logo */}
       <div className="flex items-center gap-10">
-        <Image src="/logo.svg" alt="Finance AI" width={173} height={39} />
+        <a href="/">
+          <Image src="/logo.svg" alt="Finance AI" width={173} height={39} />
+        </a>
         <Link href="/" className={
           pathname === "/" ? "text-primary font-bold" : "text-muted-foreground"
         }>Dashboard</Link>
