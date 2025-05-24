@@ -7,30 +7,37 @@ import { redirect } from "next/navigation";
 import { auth } from "@clerk/nextjs/server";
 
 const TransactionsPages = async () => {
-  const { userId } = await auth()
+  // Verificar se o usuário está logado
+  const { userId } = await auth();
   if (!userId) {
-    redirect("/login")
+    redirect("/login");
   }
 
-  // acessar as transições do banco de dados
+  // Buscar apenas as transações do usuário logado
   const transactions = await db.transaction.findMany({
-    where: { userId },
-    orderBy: { createdAt: "desc" },
-  })
+    where: {
+      userId: userId,
+    },
+    orderBy: {
+      date: "desc", // opcional: ordena por data decrescente
+    },
+  });
+
   return (
     <>
       <Navbar />
       <div className="p-6 space-y-6">
-        {/* TITULO DO BOTÃO */}
+        {/* Título e botão */}
         <div className="flex w-full items-center justify-between">
-          <h1 className="text-2xl font-bold">Transação</h1>
+          <h1 className="text-2xl font-bold">Transações</h1>
           <UpsertTransactionButton />
         </div>
+
+        {/* Tabela de dados */}
         <DataTable columns={transaciontColumns} data={transactions} />
       </div>
     </>
-
   );
-}
+};
 
 export default TransactionsPages;
