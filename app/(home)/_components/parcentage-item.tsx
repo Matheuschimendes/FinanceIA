@@ -11,7 +11,9 @@ const ParcentageItem = ({ icon, title, value }: ParcentageItemProps) => {
     <div className="flex justify-between items-center">
       {/* Icone */}
       <div className="flex items-center gap-2">
-        {icon}
+        <div className="bg-white bg-opacity-[3%] rounded-lg p-2">
+          {icon}
+        </div>
         <p className="">{title}</p>
       </div>
       {/* Valor */}
