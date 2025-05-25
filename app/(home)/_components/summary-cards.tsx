@@ -28,7 +28,7 @@ const SummaryCards = async ({ balance, despositsTotal, investimentsTotal, expens
       <div className="grid grid-cols-3 gap-6">
         {/* Card de Investidos */}
         <SummaryCard
-          icon={<PiggyBankIcon size={14} />}
+          icon={<PiggyBankIcon size={16} />}
           title="Investidos"
           amount={investimentsTotal}
           size={"small"}

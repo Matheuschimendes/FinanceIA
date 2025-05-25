@@ -1,8 +1,16 @@
 import { db } from "@/app/_lib/prisma";
 import { TransactionType } from "@prisma/client";
 import type { TotalExpensePerCategory, TransactionPercentagePerType } from "./types";
+import { auth } from "@clerk/nextjs/server";
+import { use } from "react";
 
 export const getDashboard = async (month: string) => {
+
+  // Verificar se o usuário está logado
+  const { userId } = await auth();
+  if (!userId) {
+    throw new Error("Unauthorized");
+  } 
    // Validação do mês
    const parsedMonth = Number(month);
    if (isNaN(parsedMonth) || parsedMonth < 1 || parsedMonth > 12) {
@@ -18,6 +26,9 @@ export const getDashboard = async (month: string) => {
  
    // Definindo o filtro para o Prisma
    const where = {
+    // Filtrando apenas as transações do usuário logado
+    userId,
+    // Filtrando apenas as transações do mês atual
      date: {
        gte: startDate,  // Maior ou igual ao 1º dia do mês
        lt: endDate,     // Menor que o 1º dia do próximo mês

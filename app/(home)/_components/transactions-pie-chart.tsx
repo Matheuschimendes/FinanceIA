@@ -60,8 +60,8 @@ const TransactionsPieChart = ({ depositsTotal, investimentsTotal, expensesTotal,
   ].filter((item) => item.amount > 0); // Remove valores 0
 
   return (
-    <Card className="flex flex-col overflow-hidden ">
-      <CardContent className="flex-1 pb-0 overflow-hidden">
+    <Card className="flex flex-col overflow-hidden">
+      <CardContent className="flex-1 pb-0 overflow-hidden p-4">
         <ChartContainer
           config={chartConfig}
           className="mx-auto aspect-square max-h-[255px] overflow-hidden"
