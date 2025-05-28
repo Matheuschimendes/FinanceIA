@@ -32,7 +32,6 @@ const TransactionsPages = async () => {
           <h1 className="text-2xl font-bold">Transações</h1>
           <UpsertTransactionButton />
         </div>
-
         {/* Tabela de dados */}
         <DataTable columns={transaciontColumns} data={transactions} />
       </div>
