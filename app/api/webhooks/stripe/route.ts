@@ -22,14 +22,21 @@ export const POST = async (request: Request) => {
 
   switch (event.type) {
     case "invoice.payment_succeeded": {
-      // Atualizar o usuário com o seu novo plano
-      const { customer, subscription, subscription_details } =
-        event.data.object;
-      const clerkUserId = subscription_details?.metadata?.clerk_user_id;
+      // Atualizar plano premium do usuário
+      const invoicePaymentSucceeded = event.data.object;
+    
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const subscription_details = (invoicePaymentSucceeded as any).parent.subscription_details;
+    
+      const customer = invoicePaymentSucceeded.customer;
+      const subscription = subscription_details!.subscription;
+      const clerkUserId = subscription_details!.metadata!.clerk_user_id;
+    
       if (!clerkUserId) {
         return NextResponse.error();
       }
-      await clerkClient().users.updateUser(clerkUserId, {
+    
+      await (clerkClient()).users.updateUser(clerkUserId, {
         privateMetadata: {
           stripeCustomerId: customer,
           stripeSubscriptionId: subscription,
@@ -38,8 +45,10 @@ export const POST = async (request: Request) => {
           subscriptionPlan: "premium",
         },
       });
+    
       break;
     }
+  
     case "customer.subscription.deleted": {
       // Remover plano premium do usuário
       const subscription = await stripe.subscriptions.retrieve(
@@ -60,6 +69,8 @@ export const POST = async (request: Request) => {
       });
       break;
     }
+      
+    
   }
   return NextResponse.json({ received: true });
 };
