@@ -5,6 +5,7 @@ import UpsertTransactionButton from "../_components/add-transaction-button";
 import Navbar from "../_components/navbar";
 import { redirect } from "next/navigation";
 import { auth } from "@clerk/nextjs/server";
+import { canUserAddTransaction } from "../_data/can-user-add-transaction";
 
 const TransactionsPages = async () => {
   // Verificar se o usuário está logado
@@ -12,6 +13,7 @@ const TransactionsPages = async () => {
   if (!userId) {
     redirect("/login");
   }
+
 
   // Buscar apenas as transações do usuário logado
   const transactions = await db.transaction.findMany({
@@ -23,6 +25,8 @@ const TransactionsPages = async () => {
     },
   });
 
+  const userCanAddTransaction = await canUserAddTransaction();
+
   return (
     <>
       <Navbar />
@@ -30,7 +34,7 @@ const TransactionsPages = async () => {
         {/* Título e botão */}
         <div className="flex w-full items-center justify-between">
           <h1 className="text-2xl font-bold">Transações</h1>
-          <UpsertTransactionButton />
+          <UpsertTransactionButton userCanAddTransaction={userCanAddTransaction} />
         </div>
         {/* Tabela de dados */}
         <DataTable columns={transaciontColumns} data={transactions} />

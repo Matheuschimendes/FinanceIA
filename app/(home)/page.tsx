@@ -8,6 +8,7 @@ import TransactionsPieChart from "./_components/transactions-pie-chart";
 import { getDashboard } from "../_data/get-dashboard";
 import ExpensesPerCategory from "./_components/expenses-per-category";
 import LastTransactions from "./_components/last-transactions";
+import { canUserAddTransaction } from "../_data/can-user-add-transaction";
 
 interface HomeProps {
   searchParams: {
@@ -27,8 +28,10 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
     redirect(`?month=0${new Date().getMonth() + 1}`);
   }
 
+  // Buscar o dashboard
   const dashboard = await getDashboard(month);
-
+  // Verificar se o usuário pode adicionar uma transação
+  const userCanAddTransaction = await canUserAddTransaction();
 
   return (
     <>
@@ -42,7 +45,7 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
           <div className="flex flex-col gap-6 overflow-hidden">
             <SummaryCards
               despositsTotal={dashboard.depositsTotal} month={month}
-              {...dashboard} />
+              {...dashboard} userCanAddTransactions={userCanAddTransaction} />
             <div className="grid h-full grid-cols-3 grid-rows-1 gap-6 overflow-hidden">
               <TransactionsPieChart {...dashboard} />
               <ExpensesPerCategory

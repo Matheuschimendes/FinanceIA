@@ -12,9 +12,10 @@ interface SummaryCards {
   despositsTotal: number;
   investimentsTotal: number;
   expensesTotal: number;
+  userCanAddTransactions: boolean;
 }
 
-const SummaryCards = async ({ balance, despositsTotal, investimentsTotal, expensesTotal }: SummaryCards) => {
+const SummaryCards = async ({ balance, despositsTotal, investimentsTotal, expensesTotal, userCanAddTransactions }: SummaryCards) => {
 
   return (
     <div className="space-y-6 pt-5">
@@ -24,6 +25,7 @@ const SummaryCards = async ({ balance, despositsTotal, investimentsTotal, expens
         title="Saldo"
         amount={balance}
         size={"large"}
+        userCanAddTransactions={userCanAddTransactions}
       />
       <div className="grid grid-cols-3 gap-6">
         {/* Card de Investidos */}
@@ -32,6 +34,7 @@ const SummaryCards = async ({ balance, despositsTotal, investimentsTotal, expens
           title="Investidos"
           amount={investimentsTotal}
           size={"small"}
+          userCanAddTransactions={userCanAddTransactions}
         />
         {/* Card de Receita */}
         <SummaryCard
@@ -39,6 +42,7 @@ const SummaryCards = async ({ balance, despositsTotal, investimentsTotal, expens
           title="Receita"
           amount={despositsTotal}
           size={"small"}
+          userCanAddTransactions={userCanAddTransactions}
         />
         {/* Card de Despesas */}
         <SummaryCard
@@ -46,6 +50,7 @@ const SummaryCards = async ({ balance, despositsTotal, investimentsTotal, expens
           title="Despesas"
           amount={expensesTotal}
           size={"small"}
+          userCanAddTransactions={userCanAddTransactions}
         />
       </div>
     </div>
