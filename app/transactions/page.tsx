@@ -37,7 +37,7 @@ const TransactionsPages = async () => {
           <UpsertTransactionButton userCanAddTransaction={userCanAddTransaction} />
         </div>
         {/* Tabela de dados */}
-        <DataTable columns={transaciontColumns} data={transactions} />
+        <DataTable columns={transaciontColumns} data={JSON.parse(JSON.stringify(transactions))} />
       </div>
     </>
   );
