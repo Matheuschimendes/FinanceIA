@@ -13,26 +13,29 @@ import AiReportButton from "./_components/ai-report-button";
 
 interface HomeProps {
   searchParams: {
-    month: string;
+    month?: string;
   };
 }
 
-export const dynamic = "force-dynamic"; // <- adicionado aqui
+export const dynamic = "force-dynamic"; // mantém renderização dinâmica
 
-const Home = async ({ searchParams: { month } }: HomeProps) => {
+const Home = async ({ searchParams }: HomeProps) => {
+  const { userId } = await auth();
+
+  if (!userId) {
+    redirect("/login");
+  }
+
+  // Mês padrão = mês atual formatado
+  const currentMonth = String(new Date().getMonth() + 1).padStart(2, "0");
+
+  // Verifica se "month" é válido
+  const selectedMonth = searchParams.month && isMatch(searchParams.month, "MM")
+    ? searchParams.month
+    : currentMonth;
+
   try {
-    const { userId } = await auth();
-
-    if (!userId) {
-      redirect("/login");
-    }
-
-    const monthIsInvalid = !month || !isMatch(month, "MM");
-    if (monthIsInvalid) {
-      redirect(`?month=0${new Date().getMonth() + 1}`);
-    }
-
-    const dashboard = await getDashboard(month);
+    const dashboard = await getDashboard(selectedMonth);
     const userCanAddTransaction = await canUserAddTransaction();
 
     let hasPremiumPlan = false;
@@ -51,7 +54,7 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
           <div className="flex justify-between">
             <h1 className="text-2xl font-bold">Dashboard</h1>
             <div className="flex items-center gap-6">
-              <AiReportButton month={month} hasPremiumPlan={hasPremiumPlan} />
+              <AiReportButton month={selectedMonth} hasPremiumPlan={hasPremiumPlan} />
               <TimeSelect />
             </div>
           </div>
@@ -59,7 +62,7 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
             <div className="flex flex-col gap-6 overflow-hidden">
               <SummaryCards
                 despositsTotal={dashboard.depositsTotal}
-                month={month}
+                month={selectedMonth}
                 {...dashboard}
                 userCanAddTransactions={userCanAddTransaction}
               />
@@ -76,8 +79,8 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
       </>
     );
   } catch (err) {
-    console.error("Erro ao carregar página Home:", err);
-    redirect("/login");
+    console.error("Erro ao carregar o dashboard:", err);
+    return <p className="text-red-500 p-4">Erro ao carregar dados. Tente novamente mais tarde.</p>;
   }
 };
 
