@@ -6,6 +6,7 @@ import Navbar from "../_components/navbar";
 import { redirect } from "next/navigation";
 import { auth } from "@clerk/nextjs/server";
 import { canUserAddTransaction } from "../_data/can-user-add-transaction";
+import { ScrollArea } from "../_components/ui/scroll-area";
 
 const TransactionsPages = async () => {
   // Verificar se o usuário está logado
@@ -30,14 +31,16 @@ const TransactionsPages = async () => {
   return (
     <>
       <Navbar />
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-6 ">
         {/* Título e botão */}
         <div className="flex w-full items-center justify-between">
           <h1 className="text-2xl font-bold">Transações</h1>
           <UpsertTransactionButton userCanAddTransaction={userCanAddTransaction} />
         </div>
         {/* Tabela de dados */}
-        <DataTable columns={transaciontColumns} data={JSON.parse(JSON.stringify(transactions))} />
+        <ScrollArea className=" overflow-hidden">
+          <DataTable columns={transaciontColumns} data={JSON.parse(JSON.stringify(transactions))} />
+        </ScrollArea>
       </div>
     </>
   );

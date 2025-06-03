@@ -85,7 +85,6 @@ const AiReportButton = ({ month, hasPremiumPlan }: AiReportButtonProps) => {
           )}
         </DialogContent>
       </Dialog>
-      );
     </>
   );
 };
