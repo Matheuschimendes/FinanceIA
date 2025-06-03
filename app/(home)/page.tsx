@@ -17,6 +17,8 @@ interface HomeProps {
   };
 }
 
+export const dynamic = "force-dynamic"; // <- adicionado aqui
+
 const Home = async ({ searchParams: { month } }: HomeProps) => {
   try {
     const { userId } = await auth();
