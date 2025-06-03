@@ -36,6 +36,7 @@ export const genereteAiRepost = async ({ month }: genereteAiRepostSchema) => {
 
   const transactions = await db.transaction.findMany({
     where: {
+      userId,
       date: {
         gte: startDate,
         lt: endDate,
