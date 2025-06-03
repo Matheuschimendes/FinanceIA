@@ -3,7 +3,6 @@ import { redirect } from "next/navigation";
 import Navbar from "../_components/navbar";
 import SummaryCards from "./_components/summary-cards";
 import TimeSelect from "./_components/time-select";
-import { isMatch } from "date-fns";
 import TransactionsPieChart from "./_components/transactions-pie-chart";
 import { getDashboard } from "../_data/get-dashboard";
 import ExpensesPerCategory from "./_components/expenses-per-category";
@@ -17,22 +16,21 @@ interface HomeProps {
   };
 }
 
-export const dynamic = "force-dynamic"; // mantém renderização dinâmica
+export const dynamic = "force-dynamic"; // força renderização dinâmica
 
 const Home = async ({ searchParams }: HomeProps) => {
   const { userId } = await auth();
 
   if (!userId) {
-    redirect("/login");
+    redirect("/login"); // garante redirecionamento seguro
   }
 
-  // Mês padrão = mês atual formatado
+  // Mês atual com zero à esquerda
   const currentMonth = String(new Date().getMonth() + 1).padStart(2, "0");
 
-  // Verifica se "month" é válido
-  const selectedMonth = searchParams.month && isMatch(searchParams.month, "MM")
-    ? searchParams.month
-    : currentMonth;
+  // Validação segura do parâmetro month
+  const isValidMonth = searchParams.month && /^\d{2}$/.test(searchParams.month);
+  const selectedMonth = isValidMonth ? searchParams.month! : currentMonth;
 
   try {
     const dashboard = await getDashboard(selectedMonth);
@@ -80,7 +78,11 @@ const Home = async ({ searchParams }: HomeProps) => {
     );
   } catch (err) {
     console.error("Erro ao carregar o dashboard:", err);
-    return <p className="text-red-500 p-4">Erro ao carregar dados. Tente novamente mais tarde.</p>;
+    return (
+      <p className="text-red-500 p-4">
+        Erro ao carregar dados. Tente novamente mais tarde.
+      </p>
+    );
   }
 };
 
