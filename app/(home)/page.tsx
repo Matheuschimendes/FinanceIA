@@ -17,52 +17,68 @@ interface HomeProps {
   };
 }
 
+export const dynamic = "force-dynamic"; // <- adicionado aqui
+
 const Home = async ({ searchParams: { month } }: HomeProps) => {
-  const { userId } = await auth();
-  if (!userId) {
-    redirect("/login");
-  }
-  const monthIsInvalid = !month || !isMatch(month, "MM");
-  if (monthIsInvalid) {
-    redirect(`?month=${new Date().getMonth() + 1}`);
-  }
-  const dashboard = await getDashboard(month);
-  const userCanAddTransaction = await canUserAddTransaction();
-  const user = await clerkClient().users.getUser(userId);
-  return (
-    <>
-      <Navbar />
-      <div className="flex h-full flex-col space-y-6 overflow-hidden p-6">
-        <div className="flex justify-between">
-          <h1 className="text-2xl font-bold">Dashboard</h1>
-          <div className="flex items-center gap-3">
-            <AiReportButton
-              month={month}
-              hasPremiumPlan={
-                user.publicMetadata.subscriptionPlan === "premium"
-              }
-            />
-            <TimeSelect />
-          </div>
-        </div>
-        <div className="grid h-full grid-cols-[2fr,1fr] gap-6 overflow-hidden">
-          <div className="flex flex-col gap-6 overflow-hidden">
-            <SummaryCards
-              despositsTotal={0} month={month}
-              {...dashboard}
-              userCanAddTransactions={userCanAddTransaction} />
-            <div className="grid h-full grid-cols-3 grid-rows-1 gap-6 overflow-hidden">
-              <TransactionsPieChart {...dashboard} />
-              <ExpensesPerCategory
-                expensesPerCategory={dashboard.totalExpensePerCategory}
-              />
+  try {
+    const { userId } = await auth();
+
+    if (!userId) {
+      redirect("/login");
+    }
+
+    const monthIsInvalid = !month || !isMatch(month, "MM");
+    if (monthIsInvalid) {
+      redirect(`?month=0${new Date().getMonth() + 1}`);
+    }
+
+    const dashboard = await getDashboard(month);
+    const userCanAddTransaction = await canUserAddTransaction();
+
+    let hasPremiumPlan = false;
+
+    try {
+      const user = await clerkClient().users.getUser(userId);
+      hasPremiumPlan = user.publicMetadata.subscriptionPlan === "premium";
+    } catch (err) {
+      console.error("Erro ao buscar dados do usuário via Clerk:", err);
+    }
+
+    return (
+      <>
+        <Navbar />
+        <div className="p-8 overflow-hidden flex flex-col">
+          <div className="flex justify-between">
+            <h1 className="text-2xl font-bold">Dashboard</h1>
+            <div className="flex items-center gap-6">
+              <AiReportButton month={month} hasPremiumPlan={hasPremiumPlan} />
+              <TimeSelect />
             </div>
           </div>
-          <LastTransactions lastTransactions={dashboard.lastTransaction} />
+          <div className="grid h-full grid-cols-[2fr,1fr] gap-6 overflow-hidden">
+            <div className="flex flex-col gap-6 overflow-hidden">
+              <SummaryCards
+                despositsTotal={dashboard.depositsTotal}
+                month={month}
+                {...dashboard}
+                userCanAddTransactions={userCanAddTransaction}
+              />
+              <div className="grid h-full grid-cols-3 grid-rows-1 gap-6 overflow-hidden">
+                <TransactionsPieChart {...dashboard} />
+                <ExpensesPerCategory
+                  expensesPerCategory={dashboard.totalExpensePerCategory}
+                />
+              </div>
+            </div>
+            <LastTransactions lastTransactions={dashboard.lastTransaction} />
+          </div>
         </div>
-      </div>
-    </>
-  );
+      </>
+    );
+  } catch (err) {
+    console.error("Erro ao carregar página Home:", err);
+    redirect("/login");
+  }
 };
 
 export default Home;
