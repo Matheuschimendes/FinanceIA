@@ -7,6 +7,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@clerk/nextjs/server";
 import { canUserAddTransaction } from "../_data/can-user-add-transaction";
 import { ScrollArea } from "../_components/ui/scroll-area";
+import MobileMenu from "../_components/mobile-menu";
 
 const TransactionsPages = async () => {
   // Verificar se o usuário está logado
@@ -42,6 +43,7 @@ const TransactionsPages = async () => {
           <DataTable columns={transaciontColumns} data={JSON.parse(JSON.stringify(transactions))} />
         </ScrollArea>
       </div>
+      <MobileMenu />
     </>
   );
 };

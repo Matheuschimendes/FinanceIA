@@ -15,17 +15,20 @@ const TimeSelect = () => {
     push(`/?month=${month}`)
   }
   return (
-    <Select onValueChange={(value) => handleMonthChange(value)} defaultValue={month ?? ''}>
-      <SelectTrigger className="w-[150px] rounded-full" >
-        <SelectValue placeholder="Selecione um mês" />
-      </SelectTrigger>
-      <SelectContent>
-        {MONTH_OPTIONS.map((option) => (
-          <SelectItem key={option.value}
-            value={option.value}>{option.label}
-          </SelectItem>))}
-      </SelectContent>
-    </Select>
+    <>
+      {/* Selecione o mês */}
+      <Select onValueChange={(value) => handleMonthChange(value)} defaultValue={month ?? ''}>
+        <SelectTrigger className="w-[150px] rounded-full" >
+          <SelectValue placeholder="Selecione um mês" />
+        </SelectTrigger>
+        <SelectContent>
+          {MONTH_OPTIONS.map((option) => (
+            <SelectItem key={option.value}
+              value={option.value}>{option.label}
+            </SelectItem>))}
+        </SelectContent>
+      </Select>
+    </>
   );
 }
 

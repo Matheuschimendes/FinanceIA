@@ -6,6 +6,7 @@ import { CheckIcon, XIcon } from "lucide-react";
 import AcquirePlanButton from "./_components/acquire-plan-button";
 import { Badge } from "../_components/ui/badge";
 import { getCurrentMonthTransactions } from "../_data/get-current-month-transaction";
+import MobileMenu from "../_components/mobile-menu";
 // import { getCurrentMonthTransactions } from "../_data/get-current-month-transactions";
 
 const SubscriptionPage = async () => {
@@ -83,6 +84,7 @@ const SubscriptionPage = async () => {
           </Card>
         </div>
       </div>
+      <MobileMenu />
     </>
   );
 };
