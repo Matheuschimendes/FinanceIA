@@ -27,7 +27,8 @@ const SummaryCards = async ({ balance, despositsTotal, investimentsTotal, expens
         size={"large"}
         userCanAddTransactions={userCanAddTransactions}
       />
-      <div className="grid grid-cols-3 gap-6">
+      {/* <div className="overflow-x-auto max-h-[400px] sm:overflow-visible w-full"> */}
+      <div className="flex flex-wrap gap-4 sm:grid sm:grid-cols-3 sm:gap-6 ">
         {/* Card de Investidos */}
         <SummaryCard
           icon={<PiggyBankIcon size={16} />}
@@ -54,6 +55,7 @@ const SummaryCards = async ({ balance, despositsTotal, investimentsTotal, expens
         />
       </div>
     </div>
+    // </div >
   );
 };
 

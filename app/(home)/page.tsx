@@ -25,9 +25,9 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
   if (!userId) {
     redirect("/login");
   }
-
   // Obtém o mês atual formatado como dois dígitos (ex: "03", "11")
   const currentMonth = String(new Date().getMonth() + 1).padStart(2, "0");
+
   // Verifica se o mês fornecido é válido
   const monthIsInvalid = !month || !isMatch(month, "MM");
   // Se o mês for inválido, redireciona para o mês atual
