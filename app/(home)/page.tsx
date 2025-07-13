@@ -40,7 +40,7 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
       </div>
 
       {/* Conteúdo com padding para compensar Navbar e MobileMenu */}
-      <div className=" pb-20 ">
+      <div className="pb-20">
         <div className="space-y-6 p-4 sm:p-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <h1 className="text-2xl font-bold">Dashboard</h1>
@@ -73,10 +73,10 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
             <LastTransactions lastTransactions={dashboard.lastTransaction} />
           </div>
         </div>
-      </div>
+      </div >
 
       {/* MobileMenu fixo no rodapé */}
-      <div className="fixed bottom-0 left-0 w-full z-50">
+      < div className="fixed bottom-0 left-0 w-full z-50" >
         <MobileMenu />
       </div>
     </>

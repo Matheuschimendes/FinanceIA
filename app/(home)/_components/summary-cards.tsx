@@ -7,7 +7,7 @@ import {
 import SummaryCard from "./summary-card";
 
 interface SummaryCards {
-  month: string; // Mês passado como parâmetro (ex: '01', '02', etc.)
+  month: string;
   balance: number;
   despositsTotal: number;
   investimentsTotal: number;
@@ -26,16 +26,15 @@ const SummaryCards = async ({
     <div className="space-y-6 pt-5">
       {/* Card de Saldo */}
       <SummaryCard
-        icon={<WalletIcon size={16} className="text-muted-foreground md:size-1" />}
+        icon={<WalletIcon size={16} />}
         title="Saldo"
         amount={balance}
         size={"large"}
         userCanAddTransactions={userCanAddTransactions}
       />
 
-      {/* Container ajustado para scroll horizontal no mobile e grid 3 colunas no desktop */}
-      <div className="flex gap-4 flex-nowrap overflow-x-auto sm:grid sm:grid-cols-3 sm:gap-6">
-        {/* Card de Investidos */}
+      {/* Container scroll horizontal no mobile, grid no desktop */}
+      <div className="flex gap-4 overflow-x-auto pb-2 px-2 sm:grid sm:grid-cols-3 sm:gap-6">
         <SummaryCard
           icon={<PiggyBankIcon size={16} className="text-success" />}
           title="Investidos"
@@ -43,7 +42,6 @@ const SummaryCards = async ({
           size={"small"}
           userCanAddTransactions={userCanAddTransactions}
         />
-        {/* Card de Receita */}
         <SummaryCard
           icon={<TrendingUpIcon size={16} className="text-primary" />}
           title="Receita"
@@ -51,7 +49,6 @@ const SummaryCards = async ({
           size={"small"}
           userCanAddTransactions={userCanAddTransactions}
         />
-        {/* Card de Despesas */}
         <SummaryCard
           icon={<TrendingDownIcon size={16} className="text-danger" />}
           title="Despesas"
