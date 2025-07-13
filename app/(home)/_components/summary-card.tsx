@@ -15,7 +15,7 @@ const SummaryCard = ({ icon, title, amount, size = "small", userCanAddTransactio
     <>
       {/* Card */}
       <Card className={`${size === "small" ? "bg-white bg-opacity-5" : ""}`}>
-        <CardHeader className="flex flex-row items-center gap-4 ">
+        <CardHeader className="flex flex-row items-center gap-2">
           <div className="bg-white bg-opacity-[3%] rounded-lg p-2">
             {icon}
           </div>
@@ -26,7 +26,7 @@ const SummaryCard = ({ icon, title, amount, size = "small", userCanAddTransactio
           </p>
         </CardHeader>
 
-        <CardContent className="flex justify-between">
+        <CardContent className="flex justify-between ">
           <p className={
             `font-bold${size === "small" ? "text-2xl" : "text-4xl"
             }`

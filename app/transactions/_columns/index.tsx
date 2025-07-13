@@ -1,14 +1,16 @@
-"use client"
+"use client";
 
-
-import { Transaction } from "@prisma/client"
-import { ColumnDef } from "@tanstack/react-table"
-import TransactionTypeBadge from "../_components/type-badge"
-import { TRANSACTION_CATEGORY_LABELS, TRANSACTION_PAYMENT_METHOD_LABELS } from "@/app/_constants/transactions";
+import { Transaction } from "@prisma/client";
+import { ColumnDef } from "@tanstack/react-table";
+import TransactionTypeBadge from "../_components/type-badge";
+import {
+  TRANSACTION_CATEGORY_LABELS,
+  TRANSACTION_PAYMENT_METHOD_LABELS,
+} from "@/app/_constants/transactions";
 import EditTransactionButton from "../_components/edit-transaction-button";
 import DeleteTransactionButton from "../_components/delete-transaction-button";
 
-export const transaciontColumns: ColumnDef<Transaction>[] = [
+export const transactionColumns: ColumnDef<Transaction>[] = [
   {
     accessorKey: "name",
     header: "Nome",
@@ -38,9 +40,9 @@ export const transaciontColumns: ColumnDef<Transaction>[] = [
     cell: ({ row: { original: transaction } }) =>
       new Date(transaction.date).toLocaleDateString("pt-BR", {
         day: "2-digit",
-        month: "long",
+        month: "short",
         year: "numeric",
-      })
+      }),
   },
   {
     accessorKey: "amount",
@@ -52,15 +54,13 @@ export const transaciontColumns: ColumnDef<Transaction>[] = [
       }).format(Number(transaction.amount)),
   },
   {
-    accessorKey: "Actions",
+    accessorKey: "actions",
     header: "Ação",
-    cell: ({ row: { original: transaction } }) => {
-      return (
-        <div>
-          <EditTransactionButton transaction={transaction} />
-          <DeleteTransactionButton transactionId={transaction.id} />
-        </div>
-      )
-    }
+    cell: ({ row: { original: transaction } }) => (
+      <div className="flex flex-wrap gap-2">
+        <EditTransactionButton transaction={transaction} />
+        <DeleteTransactionButton transactionId={transaction.id} />
+      </div>
+    ),
   },
-]
+];
