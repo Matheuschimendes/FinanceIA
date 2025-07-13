@@ -15,20 +15,26 @@ interface SummaryCards {
   userCanAddTransactions: boolean;
 }
 
-const SummaryCards = async ({ balance, despositsTotal, investimentsTotal, expensesTotal, userCanAddTransactions }: SummaryCards) => {
-
+const SummaryCards = async ({
+  balance,
+  despositsTotal,
+  investimentsTotal,
+  expensesTotal,
+  userCanAddTransactions,
+}: SummaryCards) => {
   return (
     <div className="space-y-6 pt-5">
       {/* Card de Saldo */}
       <SummaryCard
-        icon={<WalletIcon size={16} />}
+        icon={<WalletIcon size={16} className="text-muted-foreground md:size-1" />}
         title="Saldo"
         amount={balance}
         size={"large"}
         userCanAddTransactions={userCanAddTransactions}
       />
-      {/* <div className="overflow-x-auto max-h-[400px] sm:overflow-visible w-full"> */}
-      <div className="flex gap-4 flex-wrap sm:grid sm:grid-cols-3 sm:gap-6 ">
+
+      {/* Container ajustado para scroll horizontal no mobile e grid 3 colunas no desktop */}
+      <div className="flex gap-4 flex-nowrap overflow-x-auto sm:grid sm:grid-cols-3 sm:gap-6">
         {/* Card de Investidos */}
         <SummaryCard
           icon={<PiggyBankIcon size={16} className="text-success" />}
@@ -55,7 +61,6 @@ const SummaryCards = async ({ balance, despositsTotal, investimentsTotal, expens
         />
       </div>
     </div>
-    // </div >
   );
 };
 
